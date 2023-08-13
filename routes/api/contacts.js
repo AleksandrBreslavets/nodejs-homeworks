@@ -2,9 +2,9 @@ const express = require('express');
 
 const router = express.Router();
 
-const ctrl = require("../../controllers/contacts");
+const { contactCtrl: ctrl } = require("../../controllers");
 const { validationBody, isValidId } = require("../../middlewars");
-const { schemas } = require("../../models/contacts");
+const { contactModel:{schemas} } = require("../../models");   
 
 router.get('/', ctrl.getAll);
 
@@ -16,6 +16,6 @@ router.delete('/:contactId', isValidId, ctrl.deleteContact);
 
 router.put('/:contactId', isValidId, validationBody(schemas.validationJoiSchema, "Missing fields"), ctrl.updateContact);
 
-router.patch('/:contactId/favorite', isValidId, validationBody(schemas.favoriteUpdValidationSchema,"Missing field favorite"), ctrl.updateStatusContact)
+router.patch('/:contactId/favorite', isValidId, validationBody(schemas.favoriteUpdValidationSchema, "Missing field favorite"), ctrl.updateStatusContact);
 
 module.exports = router;

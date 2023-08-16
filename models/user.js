@@ -1,6 +1,8 @@
 const { Schema, model } = require("mongoose");
 const Joi = require("joi");
-const { handleMongooseErr } = require("../middlewars");
+const { handleMongooseErr } = require("../helpers");
+
+const subscrOptions = ["starter", "pro", "business"];
 
 const authSchema = new Schema({
     password: {
@@ -14,7 +16,7 @@ const authSchema = new Schema({
     },
     subscription: {
         type: String,
-        enum: ["starter", "pro", "business"],
+        enum: subscrOptions,
         default: "starter"
     },
     token: {
@@ -28,8 +30,13 @@ const authJoiSchema = Joi.object({
     password: Joi.string().required(),
 });
 
+const updSubscrJoiScema=Joi.object({
+    subscription: Joi.string().valid(...subscrOptions).required()
+});
+
 const schemas = {
-    authJoiSchema
+    authJoiSchema,
+    updSubscrJoiScema
 };
 
 authSchema.post("save", handleMongooseErr);

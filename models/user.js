@@ -26,7 +26,15 @@ const authSchema = new Schema({
     avatarURL: {
         type: String,
         required: true
-    }
+    },
+    verify: {
+        type: Boolean,
+        default: false,
+    },
+    verificationToken: {
+        type: String,
+        required: [true, 'Verify token is required'],
+    },
 }, { versionKey: false, timestamps: true });
 
 const authJoiSchema = Joi.object({
@@ -38,9 +46,14 @@ const updSubscrJoiScema=Joi.object({
     subscription: Joi.string().valid(...subscrOptions).required()
 });
 
+const resentVerifyEmailSchema = Joi.object({
+    email: Joi.string().required()
+});
+
 const schemas = {
     authJoiSchema,
-    updSubscrJoiScema
+    updSubscrJoiScema,
+    resentVerifyEmailSchema
 };
 
 authSchema.post("save", handleMongooseErr);

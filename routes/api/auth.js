@@ -12,5 +12,7 @@ router.get('/current', authenticate, ctrl.currentUser);
 router.post('/logout', authenticate, ctrl.logoutUser);
 router.patch('/', authenticate, validationBody(schemas.updSubscrJoiScema, "Missing field subscription"), ctrl.updSubscr);
 router.patch('/avatars', authenticate, upload.single("avatar"), ctrl.updAvatar);
+router.get('/verify/:verificationToken', ctrl.verifyUser);
+router.post('/verify', validationBody(schemas.resentVerifyEmailSchema, "Missing required field email"), ctrl.resendVerifyEmail);
 
 module.exports = router;
